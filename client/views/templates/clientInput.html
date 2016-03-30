@@ -1,0 +1,64 @@
+
+  <template class="clientinput" name="clientInput">
+
+ <form id="clientinput" name="clientInput" class="FormElements" autocomplete="off" onsubmit="alert('Your preferences have been saved')">
+<a class="glyphicon glyphicon-home" href="/" >Home </a>
+<br><br>
+
+<div class="@container-desktop" id="main">
+
+
+
+   <span> Name :</span>
+      <input type="text" class="ClientName" name="clientname" value="" required>
+   <br><br>
+
+   <fieldset id="restaurant_field" class="field" disabled>
+
+  <span> Restaurant :</span>
+      <input type="text" class="RestaurantName" name="restaurant" value="" required>
+   <br><br>
+
+   </fieldset>
+
+   <fieldset id="clientinput_field" class="field" disabled>
+
+{{#each extractKeyname 'textbox'}}
+
+    <span>{{KeyName}} :</span>
+      <input type="text" class={{KeyName}}  name={{KeyName}} tagname={{Security}} value="" >
+      <br><br>
+  {{nestedobj_creation KeyName}}
+      {{/each}}
+
+
+<div class="fieldgroup">
+
+{{#each extractKeyname 'radio'}}
+<dl>
+    <dt id={{KeyName}} >{{ KeyName }} </dt>
+    <dd>
+      <input type="radio" class=enable{{KeyName}}    id=1{{KeyName}} name={{KeyName}} value={{KeyName}} tagname={{Security}}   > 
+      <label for={{KeyName}} id={{KeyName}} > {{{extractKeynameValue KeyName}}} </label>
+       <input type="radio" class=disable{{KeyName}}  id=2{{KeyName}} name={{KeyName}} value={{KeyName}}  tagname={{Security}}  > 
+       <label for={{KeyName}} id={{KeyName}} > {{{extractKeynameValue1 KeyName}}} </label>  
+
+      </dd>
+      </dl>
+      <br class={{KeyName}} > 
+      
+   {{nestedobj_creation KeyName}}
+   
+      {{/each}} 
+</div>
+
+{{db_insertion}}
+ </fieldset>
+
+
+ <input type='submit' class="btn btn-success"   value='Submit' onclick={{submitfn}}> &nbsp;
+ <input type='reset' class="btn btn-warning" name="reset_btn" value='Reset' >
+ </div>  
+
+    </form>
+</template>

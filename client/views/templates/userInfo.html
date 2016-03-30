@@ -1,0 +1,178 @@
+
+<template name="userInfo">      
+<form name="userinfo" class="userDetails">
+
+
+
+{{#with pullData}}
+<div class="DataFromDb">
+
+<a class="glyphicon glyphicon-home" href="/" >Home </a>
+<br><br>
+
+   <span> Name :</span>
+      <input type="text" name="clientname" value="{{name}}" disabled>
+   <br><br>
+
+<span>Select Restaurant :</span>
+   <select class="restaurantList" id="restaurants" name="restaurantlist" >
+    <option name="restaurantlist1" value="{{extractRestaurantList '0'}}" >{{extractRestaurantList '0'}} </option>
+    <option value="{{extractRestaurantList '1'}}" >{{extractRestaurantList '1'}} </option>
+    <option value="{{extractRestaurantList '2'}}" >{{extractRestaurantList '2'}} </option>
+    </select>
+<br><br>
+
+
+ <div class="btn-toolbar" >
+   <input type="button" class="btn btn-primary" id="edit" value='Edit' >
+   
+   <input type="submit" class="btn btn-success"  id="submit" value='Update'>
+   
+   <input type="button" class="btn btn-primary"  id="addRestaurant" value='Add Restaurant ' >
+   
+</div>
+<br>
+
+
+   <fieldset id="field" class="field" disabled>
+  
+   {{#each extractKeyname 'textbox'}}
+  
+      <span>{{KeyName}} :</span>
+      <input type="text" class={{KeyName}}  name={{KeyName}} tagname={{Security}}  value={{extractKeyname_Value KeyName 'textbox'}}>
+      <br><br>
+
+      {{/each}}
+
+
+<div class="radio_fieldgroup">
+
+  {{#each extractKeyname 'radio'}}
+<dl>
+<dt id={{KeyName}} >{{ KeyName }} </dt>
+<dd>     
+      <input type="radio" class=enable{{KeyName}}    id=e{{KeyName}} name={{KeyName}} value={{KeyName}} tagname={{Security}}  > 
+      <label for=e{{KeyName}} id=1{{KeyName}} class={{KeyName}} > {{{extractKeynameValue KeyName }}} </label> 
+  
+       <input type="radio" class=disable{{KeyName}}  id=d{{KeyName}} name={{KeyName}} value={{KeyName}}  tagname={{Security}}  > 
+       <label for=d{{KeyName}} id=2{{KeyName}} class={{KeyName}} > {{{extractKeynameValue1 KeyName }}} </label> 
+
+      {{{extractRadioButtonChecked KeyName 'radio'}}}
+
+       </dd>
+      </dl>
+      <br class={{KeyName}} > 
+
+
+   
+      {{/each}} 
+
+ </div>
+
+  
+</fieldset>
+
+       <br><br>
+  
+  <div class="btn-toolbar" >
+
+   <input type="button" class="btn btn-primary" id="edit" name="edit"  value='Edit' > 
+   
+   <input type="submit" class="btn btn-success"  id="submit" value='Update'>  
+    </div>
+
+     <script src="jquery.js"></script>
+    <script>
+
+valueToInsert= {};
+valueToInsert = {
+            name: ClientsName
+        };
+         valueToInsert["public"] = {};
+         valueToInsert["private"] = {};
+
+         var Restaurant = Session.get("RestaurantNameVar");
+         valueToInsert["public"][Restaurant]= {};
+    valueToInsert["private"][Restaurant]= {};
+
+
+    $(document).ready(function(e) {
+
+
+       for(i in checkedList_2){
+var label = $("#1" + checkedList_2[i]); 
+var label2 = $("#2" + checkedList_2[i]);
+
+  if(checkedList[i].toLowerCase() ==label[0].innerText.toLowerCase() ){
+    id.push($("#1" + checkedList_2[i]).attr('for'));
+  }
+  else
+  {
+  if(checkedList[i].toLowerCase()  ==label2[0].innerText.toLowerCase()){
+    id.push($("#2" + checkedList_2[i]).attr('for'));
+  }
+}
+}
+
+
+$(function () {
+   for(var j in id){
+  $('#' + id[j]).prop('checked', true);
+}
+});
+
+$(document).on("change", 'input', function (event,target) {
+event.preventDefault();
+
+ if( $(this)[0].name != "clientname") {
+  var tempvar= $(this)[0].name;
+  if($(this)[0].type == "radio"){
+      var tempvar1 = $(this).next()[0].innerText.toLowerCase();
+
+}
+else
+{
+  var tempvar1 = $(this).val().toLowerCase(); 
+}
+var security = $(this)[0].attributes.tagname.value;
+ Restaurant = Session.get("RestaurantNameVar");
+valueToInsert["public"][Restaurant]= {};
+    valueToInsert["private"][Restaurant]= {};
+  valueToInsert[security][Restaurant][tempvar]= tempvar1;
+
+     //to hide radio buttons when their parent gets disabled
+  for (var k in dependencyList){
+    if(tempvar == dependencyList_value[k] && tempvar1 =="disabled"){
+  $('input:radio[name="' + dependencyList[k] + '"]').css('display','none');
+  $('#' + dependencyList[k]).css('display','none');
+  $('.' + dependencyList[k]).css('display','none');
+  //Resetting the values of dependant elements to null in db
+  valueToInsert[security][Restaurant][dependencyList[k]]= "";
+
+  }
+  //to show radio buttons when their parent gets enabled
+  else  if(tempvar == dependencyList_value[k] && tempvar1 =="enabled"){
+  $('input:radio[name="' + dependencyList[k] + '"]').css('display','inline');
+  $('#' + dependencyList[k]).css('display','inline');
+  $('.' + dependencyList[k]).css('display','inline');
+
+  }
+}
+   
+     
+tmpval = valueToInsert["private"][Restaurant];
+tmpval1 = valueToInsert["public"][Restaurant];
+console.log(tmpval,tmpval1);
+Meteor.call('newtodb', valueToInsert, ClientsName, Restaurant, tmpval, tmpval1);
+}
+    }); 
+});
+ 
+    </script>
+   
+
+
+</div>
+{{/with}}
+</form>
+</template>
