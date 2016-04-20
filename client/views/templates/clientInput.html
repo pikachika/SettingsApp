@@ -1,7 +1,7 @@
 
   <template class="clientinput" name="clientInput">
 
- <form id="clientinput" name="clientInput" class="FormElements" autocomplete="off" onsubmit="alert('Your preferences have been saved')">
+ <form id="clientinput" name="clientInput" class="FormElements" autocomplete="off" >
 <a class="glyphicon glyphicon-home" href="/" >Home </a>
 <br><br>
 
@@ -26,10 +26,13 @@
 {{#each extractKeyname 'textbox'}}
 
     <span>{{KeyName}} :</span>
-      <input type="text" class={{KeyName}}  name={{KeyName}} tagname={{Security}} value="" >
+      <input type={{Validate}} class={{KeyName}}  name={{KeyName}} tagname={{Security}} value="" required >
+
       <br><br>
   {{nestedobj_creation KeyName}}
       {{/each}}
+
+
 
 
 <div class="fieldgroup">
@@ -38,7 +41,7 @@
 <dl>
     <dt id={{KeyName}} >{{ KeyName }} </dt>
     <dd>
-      <input type="radio" class=enable{{KeyName}}    id=1{{KeyName}} name={{KeyName}} value={{KeyName}} tagname={{Security}}   > 
+      <input type="radio" class=enable{{KeyName}}    id=1{{KeyName}} name={{KeyName}} value={{KeyName}} tagname={{Security}}  required > 
       <label for={{KeyName}} id={{KeyName}} > {{{extractKeynameValue KeyName}}} </label>
        <input type="radio" class=disable{{KeyName}}  id=2{{KeyName}} name={{KeyName}} value={{KeyName}}  tagname={{Security}}  > 
        <label for={{KeyName}} id={{KeyName}} > {{{extractKeynameValue1 KeyName}}} </label>  
@@ -60,5 +63,15 @@
  <input type='reset' class="btn btn-warning" name="reset_btn" value='Reset' >
  </div>  
 
+
     </form>
+
+
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+
+
 </template>

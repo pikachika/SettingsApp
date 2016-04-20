@@ -3,6 +3,9 @@ var status = [];
 var status_value = [];
 dependency = [];
 dependency_value = [];
+default_values_name=[];
+default_values_value=[];
+default_values_security=[];
 has_parent = [];
 parent_value = {};
 sample_v = {};
@@ -68,6 +71,10 @@ Template.clientInput.helpers({
         //To display default checked property of radio button
         if (dataset.State == "default") {
             status.push("2" + arg1);
+            default_values_name.push(dataset.KeyName);
+            default_values_value.push(dataset.Value);
+            default_values_security.push(dataset.Security);
+
         }
         return dataset.Value;
     },
@@ -144,6 +151,7 @@ Template.clientInput.helpers({
 
                 // Db insertion for elements other than clientname and restaurant
                 if ($(this)[0].name != "clientname" || "restaurant") {
+                    console.log("hh");
                     var tempvar = $(this)[0].name;
                     if ($(this)[0].type == "radio") {
                         var tempvar1 = $(this).next()[0].innerText.toLowerCase();
@@ -196,11 +204,47 @@ Template.clientInput.helpers({
 
                 }
 
+
                 // Inserting data into DB
 
                 tmpval = valueToInsert["private"][Restaurant];
                 tmpval1 = valueToInsert["public"][Restaurant];
-                Meteor.call('addTodb', valueToInsert, ClientsName, Restaurant, tmpval, tmpval1);
+
+                
+//Form validation
+
+                $("#clientinput").validate({
+                    
+  highlight: function(element, errorClass) {
+    $(element).fadeOut(function() {
+      $(element).fadeIn();});
+}
+  
+});
+
+jQuery.extend(jQuery.validator.messages, {
+    required: "This field is required.",
+    remote: "Please fix this field.",
+    email: "Please enter a valid email address.",
+    url: " Please enter a valid URL  ",
+    date: "Please enter a valid date.",
+    dateISO: "Please enter a valid date (ISO).",
+    number: "Please enter a valid number.",
+    digits: "Please enter only digits.",
+    creditcard: "Please enter a valid credit card number.",
+    equalTo: "Please enter the same value again.",
+    accept: "Please enter a value with a valid extension.",
+    maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
+    minlength: jQuery.validator.format("Please enter at least {0} characters."),
+    rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
+    range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+    max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
+    min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
+});
+
+
+
+Meteor.call('addTodb', valueToInsert, ClientsName, Restaurant, tmpval, tmpval1);
 
 
             });
@@ -222,6 +266,7 @@ Template.clientInput.events({
         //To display checked property of radio button
         for (var i in status) {
             document.getElementById(status[i]).checked = true;
+            console.log(status[i]);
         }
 
 
@@ -229,10 +274,22 @@ Template.clientInput.events({
 
     'submit form': function(event) {
         event.preventDefault();
+        //to insert radio button values to db with default values if the user has not manipulated it 
+        for (i in default_values_name)
+                {
+                    var tempvar=default_values_name[i];
+                    var tempvar1=default_values_value[i];
+                    var security=default_values_security[i];
+                    if(valueToInsert[security][Restaurant][tempvar]== undefined){
+                    valueToInsert[security][Restaurant][tempvar] = tempvar1;
+                }
+
+                }
 
         tmpval = valueToInsert["private"][Restaurant];
         tmpval1 = valueToInsert["public"][Restaurant];
         Meteor.call('addTodb', valueToInsert, ClientsName, Restaurant, tmpval, tmpval1);
+        alert("Data updated");
         Router.go('/');
 
     }

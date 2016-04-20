@@ -12,7 +12,6 @@ Meteor.methods({
        query4["public."+Restaurant]=tmpval1;
        query3["name"]=ClientsName;
        //check if client exists
-       console.log(query4);
        var client_exists=ClientChoice.findOne(query3);
        //check if restaurant  exists for that client 
        var rest_exists=ClientChoice.findOne(

@@ -5,10 +5,18 @@ fieldset[disabled] {
     border: none;
     opacity: 0.6;
 }
-.fieldgroup,
+
+.error {
+    background-repeat: no-repeat;
+    font-size: 12px;
+    color: red;
+
+}
+
+
 .radio_fieldgroup {
     float: left;
-    margin-right: 100px;
+    
 }
 input:focus,
 textarea:focus {
@@ -22,10 +30,8 @@ textarea:focus {
 dt {
     text-transform: capitalize;
     float: left;
-    width: 220px;
+    width: 250px;
     text-align: left;
-    font-weight: normal;
-    font-family: garamond;
 }
 dt:after {
     content: ': ';
@@ -38,15 +44,17 @@ dt,
 label,
 td {
     text-transform: capitalize;
-    font-weight: normal;
+    font-weight: bold;
     font-family: garamond;
+    color: #480000  ;
 }
 .homepageElements {
     padding-right: 450px;
     padding-top: 200px;
     padding-bottom: 244px;
     padding-left: 570px;
-    background: #202020;
+    background-image: url(https://pixabay.com/static/uploads/photo/2016/03/19/19/52/brick-1267347_960_720.jpg);
+    background-size: cover;
 }
 .form-control {
     width: 160px;
@@ -55,8 +63,8 @@ td {
     float: left;
     margin-left: -10px;
 }
-.field {
-    width: 500px;
+.field,.fieldgroup {
+    width: 450px;
     border: none;
     float: left;
 }
@@ -65,32 +73,60 @@ td {
     padding-top: 50px;
     padding-bottom: 5%;
     padding-left: 500px;
-    background: #202020;
+    
+    background-image: url(https://images.unsplash.com/photo-1421749810611-438cc492b581?crop=entropy&dpr=2&fit=crop&fm=jpg&h=950&ixjsv=2.1.0&ixlib=rb-0.3.5&q=50&w=1275);
+
     color: grey;
 }
-.DataFromDb dt,
+.DataFromDb,dt,
 span {
-    color: white;
+    color: #500000    ;
 }
 .FormElements {
-    padding-right: 350px;
+    padding-right: 500px;
     padding-top: 50px;
     padding-bottom: 65px;
-    padding-left: 500px;
-    background: #202020;
+    padding-left: 450px;
+    background-image: url(https://pixabay.com/static/uploads/photo/2015/01/10/16/45/newspaper-595478_960_720.jpg);
+    background-size:cover;
 }
 .btn.btn-primary {
     width: 140px;
     float: center;
+    background-color: #500000 ;
+    border-color: black;
+    opacity: 1;
+    text-color:black;
 }
+
+.btn-warning,.btn-warning:hover,.btn-warning:active,.btn-warning:focus,.btn-warning:visited{
+
+    background-color: #700000 ;
+    border-color: #700000 ;
+}
+
+.btn-success,.btn-success:hover,.btn-success:active,.btn-success:focus,.btn-success:visited {
+    
+    background-color: #CC6633;
+    border-color: #CC6633;
+}
+
+a {
+    color: black;
+}
+
 input:not([type=radio]):not([type=button]):not([type=submit]):not([type=reset]):not([class=ClientNameInput]):not([class=form-control]),
 select {
     width: 120px;
     text-align: center;
     float: right;
-    margin-right: 139px;
     color: black;
 }
+
+.sample{
+    text-align:right;
+}
+
 input,
 textarea {
     border-radius: 8px;
@@ -108,7 +144,8 @@ body {
     font-family: garamond;
 }
 }
-footer {
+.footer {
+    position: relative;
     margin: auto;
     height: auto;
     background-color: #1e2127;
